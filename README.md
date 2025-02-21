@@ -28,4 +28,5 @@ Installation & Setup
 3. Create a .env file:
     MONGO_URI=your_mongodb_connection_string
     JWT_SECRET=your_secret_key
-4. npm start
+4. uncomment the 26th and 27th line before run the local server
+5. npm start
