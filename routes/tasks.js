@@ -1,6 +1,7 @@
 const express = require("express");
 const Task = require("../models/Task");
 const authMiddleware = require("../middleware/auth");
+const User = require("../models/User");
 
 const router = express.Router();
 
@@ -32,9 +33,11 @@ router.post("/", authMiddleware, async (req, res) => {
 router.get("/", authMiddleware, async (req, res) => {
     try {
         const userId = req.user.id;  // Extract user ID from token
+        
+        const user = await User.findById(userId).select('-password');
         const tasks = await Task.find({ user: userId });
 
-        res.status(200).json(tasks);
+        res.status(200).json({ user, tasks: tasks.length > 0 ? tasks : [] });
 
     } catch (error) {
         res.status(500).json({ error: error.message });
